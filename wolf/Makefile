@@ -5,7 +5,7 @@
 ## Login   <alies_a@epitech.net>
 ## 
 ## Started on  Wed Dec  2 20:32:05 2015 Arnaud Alies
-## Last update Mon Dec  7 21:51:24 2015 Arnaud Alies
+## Last update Wed Dec  9 21:44:47 2015 Arnaud Alies
 ##
 
 NAME    =       wolf3d
@@ -26,12 +26,20 @@ SRC	=	./src/
 
 TCORE	=	./tcore/
 
+ENGINE	=	./src/engine/
+
+MAP	=	./src/map/
+
 SRCS	=	$(SRC)main.c \
-		$(SRC)load_map.c \
-		$(SRC)map.c \
-		$(SRC)pixfill.c \
-		$(SRC)calc.c \
-		$(TCORE)tekpixel.c
+		$(TCORE)tekpixel.c \
+		$(TCORE)vecnorm.c \
+		$(TCORE)go.c \
+		$(MAP)load_map.c \
+		$(MAP)show_map.c \
+		$(ENGINE)pixfill.c \
+		$(ENGINE)ray.c \
+		$(ENGINE)find_hit.c \
+		$(ENGINE)disp.c
 
 OBJS	=	$(SRCS:.c=.o)
 
