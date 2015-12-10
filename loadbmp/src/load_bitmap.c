@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Tue Dec  8 14:57:34 2015 Arnaud Alies
-** Last update Thu Dec 10 16:28:12 2015 Arnaud Alies
+** Last update Thu Dec 10 16:30:16 2015 Arnaud Alies
 */
 
 #include <lapin.h>
@@ -13,30 +13,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdint.h>
 #include "bmp.h"
-
-typedef struct s_head{
-  uint16_t type;
-  uint32_t size;
-  uint16_t reserved1;
-  uint16_t reserved2;
-  uint32_t offset;
-} __attribute__((packed)) t_head;
-
-typedef struct s_info{
-  uint32_t size;
-  int32_t width;
-  int32_t height;
-  uint16_t planes;
-  uint16_t bits;
-  uint32_t compression;
-  uint32_t imagesize;
-  int32_t xresolution;
-  int32_t yresolution;
-  uint32_t ncolours;
-  uint32_t importantcolours;
-} __attribute__((packed)) t_info;
 
 t_bunny_pixelarray	*load_pix(int fd)
 {
@@ -53,9 +30,6 @@ t_bunny_pixelarray	*load_pix(int fd)
   if (r != sizeof(info))
     return (NULL);
   read(fd, buffer, (sizeof(head) + sizeof(info)) - head.offset);
-  printf("%d\n", head.size);
-  printf("%d\n", head.offset);
-  printf("%d %d\n", info.width, info.height);
   return (bunny_new_pixelarray(info.width, info.height));
 }
 
