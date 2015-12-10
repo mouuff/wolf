@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Fri Dec  4 21:54:40 2015 Arnaud Alies
-** Last update Tue Dec  8 18:51:00 2015 Arnaud Alies
+** Last update Thu Dec 10 11:18:09 2015 Arnaud Alies
 */
 
 #include <stdlib.h>
@@ -33,12 +33,14 @@ int			main(int ac, char **av)
     return (1);
   data.pix = load_bitmap(av[1]);
   if (data.pix == NULL)
-    return (1);
+    return (2);
   //all_grey(data.pix);
   //binarize(data.pix);
   data.win = bunny_start(((data.pix)->clipable).clip_width,
 			 ((data.pix)->clipable).clip_height,
 			 false, "Bitmap");
+  if (data.win == NULL)
+    return (1);
   bunny_set_loop_main_function(loop);
   bunny_loop(data.win, FPS, (void*)(&data));
   bunny_stop(data.win);

@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Tue Dec  8 14:57:34 2015 Arnaud Alies
-** Last update Thu Dec 10 13:30:03 2015 Arnaud Alies
+** Last update Thu Dec 10 11:22:23 2015 Arnaud Alies
 */
 
 #include <lapin.h>
@@ -13,50 +13,42 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdint.h>
 #include "bmp.h"
 
-typedef struct s_head{
-  uint16_t type;
-  uint32_t size;
-  uint16_t reserved1;
-  uint16_t reserved2;
-  uint32_t offset;
-} __attribute__((packed)) t_head;
 
-typedef struct s_info{
-  uint32_t size;
-  int32_t width;
-  int32_t height;
-  uint16_t planes;
-  uint16_t bits;
-  uint32_t compression;
-  uint32_t imagesize;
-  int32_t xresolution;
-  int32_t yresolution;
-  uint32_t ncolours;
-  uint32_t importantcolours;
-} __attribute__((packed)) t_info;
+int	jump(int fd, int len)
+{
+  char	buff[512];
+
+  if (len > 512)
+    return (0);
+  return (read(fd, &buff, len));
+}
+
+int	read_color(int fd, t_color *color)
+{
+  return (read(fd, color->argb, 4));
+}
 
 t_bunny_pixelarray	*load_pix(int fd)
 {
-  char			buffer[2048];
-  t_bunny_pixelarray	*pix;
-  t_head		head;
-  t_info		info;
+  t_color		color;
   int			r;
+  unsigned int	        width;
+  unsigned int		height;
+  unsigned int		start;
 
-  r = read(fd, &head, sizeof(head));
-  if (r != sizeof(head))
-    return (NULL);
-  r = read(fd, &info, sizeof(info));
-  if (r != sizeof(info))
-    return (NULL);
-  read(fd, buffer, (sizeof(head) + sizeof(info)) - head.offset);
-  printf("%d\n", head.size);
-  printf("%d\n", head.offset);
-  printf("%d %d\n", info.width, info.height);
-  return (bunny_new_pixelarray(info.width, info.height));
+  r = 0;
+  r += jump(fd, 10);
+  r += read_color(fd, &color);
+  start = color.full;
+  r += jump(fd, 4);
+  r += read_color(fd, &color);
+  width = color.full;
+  r += read_color(fd, &color);
+  height = color.full;
+  jump(fd, start - r - 1);
+  return (bunny_new_pixelarray(width, height));
 }
 
 void	c_rev(t_color *color)
@@ -75,7 +67,8 @@ int	read_init(t_bunny_pixelarray **pix,
 		  int *fd,
 		  const char *file)
 {
-  if ((*fd = open(file, O_RDONLY)) == -1)
+  *fd = open(file, O_RDONLY);
+  if (*fd == -1)
     return (1);
   if ((*pix = load_pix(*fd)) == NULL)
     return (1);
