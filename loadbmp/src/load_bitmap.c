@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Tue Dec  8 14:57:34 2015 Arnaud Alies
-** Last update Tue Dec  8 18:12:12 2015 Arnaud Alies
+** Last update Thu Dec 10 10:45:59 2015 Arnaud Alies
 */
 
 #include <lapin.h>
@@ -13,40 +13,39 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include "bmp.h"
 
-void    setpixel(t_bunny_pixelarray *pix,
-		 t_bunny_position *pos,
-		 t_color *color)
+
+int	jump(int fd, int len)
 {
-  int   w;
-  int   h;
+  char	buff[256];
 
-  w = (pix->clipable).clip_width;
-  h = (pix->clipable).clip_height;
-  if ((pos->x < w && pos->y < h) && (pos->x >= 0 && pos->y >= 0))
-    (((t_color*)pix->pixels)[w * pos->y + pos->x]).full = color->full;
+  return (read(fd, &buff, len));
+}
+
+int	read_color(int fd, t_color *color)
+{
+  return (read(fd, color->argb, 4));
 }
 
 t_bunny_pixelarray	*load_pix(int fd)
 {
-  char			buff[256];
-  t_color		buffer;
+  t_color		color;
   int			r;
   int			width;
   int			height;
   int			start;
 
   r = 0;
-  r += read(fd, &buffer, 10);
-  r += read(fd, &buffer, 4);
-  start = buffer.full;
-  r += read(fd, buffer.argb, 4);
-  r += read(fd, buffer.argb, 4);
-  width = buffer.full;
-  r += read(fd, buffer.argb, 4);
-  height = buffer.full;
-  read(fd, buffer.argb, start - r -1);
-  (void)buff;
+  r += jump(fd, 10);
+  r += read_color(fd, &color);
+  start = color.full;
+  r += jump(fd, 4);
+  r += read_color(fd, &color);
+  width = color.full;
+  r += read_color(fd, &color);
+  height = color.full;
+  jump(fd, start - r -1);
   return (bunny_new_pixelarray(width, height));
 }
 
@@ -91,7 +90,7 @@ t_bunny_pixelarray	*load_bitmap(const char *file)
     {
       r = read(fd, buffer.argb, 4);
       c_rev(&buffer);
-      setpixel(pix, &pos, &buffer);
+      tekpixel(pix, &pos, &buffer);
       pos.x += 1;
       if (pos.x >= (pix->clipable).clip_width)
 	{
