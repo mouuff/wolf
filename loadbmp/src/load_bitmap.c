@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Tue Dec  8 14:57:34 2015 Arnaud Alies
-** Last update Thu Dec 10 13:30:03 2015 Arnaud Alies
+** Last update Thu Dec 10 16:28:12 2015 Arnaud Alies
 */
 
 #include <lapin.h>
@@ -64,9 +64,9 @@ void	c_rev(t_color *color)
   t_color buffer;
 
   buffer = *color;
-  (color->argb)[0] = buffer.argb[3];
-  (color->argb)[1] = buffer.argb[2];
-  (color->argb)[2] = buffer.argb[1];
+  (color->argb)[0] = buffer.argb[2];
+  (color->argb)[1] = buffer.argb[1];
+  (color->argb)[2] = buffer.argb[0];
   (color->argb)[3] = 255;
 }
 
