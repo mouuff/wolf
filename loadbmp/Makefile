@@ -5,7 +5,7 @@
 ## Login   <alies_a@epitech.net>
 ## 
 ## Started on  Fri Dec  4 21:57:46 2015 Arnaud Alies
-## Last update Tue Dec  8 18:46:24 2015 Arnaud Alies
+## Last update Thu Dec 10 10:17:01 2015 Arnaud Alies
 ##
 
 NAME    =       a.out
@@ -27,9 +27,9 @@ CORE	=	./src/core/
 SRCS	=	$(SRC)main.c \
 		$(CORE)tekpixel.c \
 		$(CORE)pixfill.c \
-		load_bitmap.c \
-		all_grey.c \
-		binarize.c
+		$(SRC)load_bitmap.c \
+		$(SRC)all_grey.c \
+		$(SRC)binarize.c
 
 OBJS	=	$(SRCS:.c=.o)
 
