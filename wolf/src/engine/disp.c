@@ -5,16 +5,34 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  9 13:27:44 2015 Arnaud Alies
-** Last update Wed Dec  9 16:42:23 2015 Arnaud Alies
+** Last update Thu Dec 10 20:44:00 2015 Arnaud Alies
 */
 
+#include <math.h>
 #include "wolf.h"
 
-void                    disp_wall(t_bunny_pixelarray *pix,
+t_color		get_pixel(t_bunny_pixelarray *pix,
+			  t_bunny_position *pos)
+{
+  t_color	color;
+  int   	w;
+  int   	h;
+
+  w = (pix->clipable).clip_width;
+  h = (pix->clipable).clip_height;
+  if ((pos->x < w && pos->y < h) && (pos->x >= 0 && pos->y >= 0))
+    color.full = (((t_color*)pix->pixels)[w * pos->y + pos->x]).full;
+  else
+    color.full = BLACK;
+  return (color);
+}
+
+void                    disp_wall(t_data *data,
 				  int col,
-				  float k)
+				  t_hit *hit)
 {
   t_bunny_position      pos;
+  t_bunny_position	text;
   t_color               c;
   int                   y;
   int                   height;
@@ -23,18 +41,29 @@ void                    disp_wall(t_bunny_pixelarray *pix,
 
   pos.x = col;
   c.full = BLUE;
-  height = ((float)HEIGHT / k);
+  height = ((float)HEIGHT / hit->k);
   space = (HEIGHT - height) / 2.0;
   y = space;
   while (y < height + space)
     {
       pos.y = y;
-      darkness = MAP((float)height, 0, HEIGHT, 0, 255);
-      darkness = (darkness > 255 ? 255 : darkness);
-      c.argb[0] = darkness;
-      c.argb[1] = darkness;
-      c.argb[2] = darkness;
-      tekpixel(pix, &pos, &c);
+      if (hit->type == A_Y)
+	{
+	  text.x = MAP((hit->pos).x,
+		       floor((hit->pos).x), ceil((hit->pos).x),
+		       0, ((data->texture)->clipable).clip_width);
+	}
+      else
+	{
+	  text.x = MAP((hit->pos).y,
+		       (int)(hit->pos).y, ((int)(hit->pos).y + 1),
+		       0, ((data->texture)->clipable).clip_width);
+	}
+      text.y = MAP((float)y,
+		   space, (height + space),
+		   0, ((data->texture)->clipable).clip_height);
+      c = get_pixel(data->texture, &text);
+      tekpixel(data->pix, &pos, &c);
       y += 1;
     }
 }
@@ -52,7 +81,7 @@ void    wolf(t_data *data)
       ray = get_ray(i);
       ray = rotate_ray(ray, data->ang);
       hit = check_grid(data->pos, ray, data);
-      disp_wall(data->pix, i, hit.k);
+      disp_wall(data, i, &hit);
       i += 1;
     }
 }

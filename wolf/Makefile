@@ -5,7 +5,7 @@
 ## Login   <alies_a@epitech.net>
 ## 
 ## Started on  Wed Dec  2 20:32:05 2015 Arnaud Alies
-## Last update Wed Dec  9 21:44:47 2015 Arnaud Alies
+## Last update Thu Dec 10 17:24:45 2015 Arnaud Alies
 ##
 
 NAME    =       wolf3d
@@ -31,6 +31,7 @@ ENGINE	=	./src/engine/
 MAP	=	./src/map/
 
 SRCS	=	$(SRC)main.c \
+		$(SRC)load_bmp.c \
 		$(TCORE)tekpixel.c \
 		$(TCORE)vecnorm.c \
 		$(TCORE)go.c \

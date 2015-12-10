@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:33:09 2015 Arnaud Alies
-** Last update Wed Dec  9 21:46:37 2015 Arnaud Alies
+** Last update Thu Dec 10 20:20:33 2015 Arnaud Alies
 */
 
 #ifndef WOLF_H_
@@ -13,7 +13,7 @@
 
 #define WIDTH (700)
 #define HEIGHT (500)
-#define FPS (30)
+#define FPS (40)
 
 #define MAP(x, sA, eA, sB, eB) ((((sA - x) / (sA - eA)) * (eB - sB)) + sB)
 #define GETK(x, xz, vx) ((x - xz) / vx)
@@ -26,11 +26,20 @@
 #define DARK_BROWN (0xFF5F4C0B)
 #define DARK_RED (0xFF61210B)
 
-#define MAP_ERR (1)
-#define INFO_ERR (2)
-#define LOAD_ERR (3)
-
 #include <lapin.h>
+
+typedef enum e_error
+  {
+    MAP_ERR,
+    INFO_ERR,
+    LOAD_ERR,
+  } t_error;
+
+typedef enum e_axes
+  {
+    A_X,
+    A_Y,
+  } t_axes;
 
 typedef	struct s_pt
 {
@@ -42,6 +51,7 @@ typedef struct s_hit
 {
   t_pt pos;
   float k;
+  int type;
   int hit;
 } t_hit;
 
@@ -57,6 +67,7 @@ typedef struct s_data
 {
   t_bunny_window *win;
   t_bunny_pixelarray *pix;
+  t_bunny_pixelarray *texture;
   t_map	*map;
   t_pt pos;
   float ang;
@@ -74,7 +85,7 @@ t_hit   check_grid(t_pt start, t_pt ray, t_data *data);
 void    pixfill(t_bunny_pixelarray *pix,
 		unsigned int ground,
 		unsigned int air);
-void	disp_wall(t_bunny_pixelarray *pix, int col, float k);
+void	disp_wall(t_data *data, int col, t_hit *hit);
 void    wolf(t_data *data);
 
 t_map	*load_map(char *ini_name);

@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  9 13:22:38 2015 Arnaud Alies
-** Last update Wed Dec  9 18:07:09 2015 Arnaud Alies
+** Last update Thu Dec 10 20:20:54 2015 Arnaud Alies
 */
 
 #include "wolf.h"
@@ -21,6 +21,7 @@ t_hit   check_line_x(t_pt start, t_pt ray, int nline, t_data *data)
 {
   t_hit res;
 
+  res.type = A_X;
   (res.pos).x = nline;
   res.k = GETK((float)nline, start.x, ray.x);
   (res.pos).y = GETX(start.y, res.k, ray.y);
@@ -32,6 +33,7 @@ t_hit   check_line_y(t_pt start, t_pt ray, int nline, t_data *data)
 {
   t_hit res;
 
+  res.type = A_Y;
   (res.pos).y = nline;
   res.k = GETK((float)nline, start.y, ray.y);
   (res.pos).x = GETX(start.x, res.k, ray.x);

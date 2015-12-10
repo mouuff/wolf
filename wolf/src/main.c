@@ -5,11 +5,12 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:18:06 2015 Arnaud Alies
-** Last update Wed Dec  9 22:29:59 2015 Arnaud Alies
+** Last update Thu Dec 10 20:47:08 2015 Arnaud Alies
 */
 
 #include <math.h>
 #include <lapin.h>
+#include "bmp.h"
 #include "wolf.h"
 
 int	init_data(t_data *data, char *file)
@@ -29,10 +30,16 @@ void	walk(t_data *data, int speed)
   t_pt	new;
 
   new.x = (data->pos).x + cos(data->ang) / 5 * speed;
-  new.y = (data->pos).y + sin(data->ang) / 5 * speed;
+  new.y = (data->pos).y;
   if (!check_wall(data->map, new.x, new.y))
     {
       new.x = (data->pos).x + cos(data->ang) / 10 * speed;
+      (data->pos) = new;
+    }
+  new.x = (data->pos).x;
+  new.y = (data->pos).y + sin(data->ang) / 5 * speed;
+  if (!check_wall(data->map, new.x, new.y))
+    {
       new.y = (data->pos).y + sin(data->ang) / 10 * speed;
       (data->pos) = new;
     }
@@ -64,6 +71,7 @@ static t_bunny_response	loop(void *data_pt)
   move(data);
   wolf(data);
   bunny_blit(&((data->win)->buffer), &((data->pix)->clipable), &zero);
+  /*bunny_blit(&((data->win)->buffer), &((data->texture)->clipable), &zero);*/
   bunny_display(data->win);
   return (GO_ON);
 }
@@ -89,9 +97,14 @@ int		main(int ac, char **av)
     return (1);
   if (init_data(&data, av[1]))
     return (1);
+  
+  if ((data.texture = load_bitmap("insanedoge.bmp")) == NULL)
+    return (1);
   data.keys = NULL;
-  data.pix = bunny_new_pixelarray(WIDTH, HEIGHT);
-  data.win = bunny_start(WIDTH, HEIGHT, false, "Wolf");
+  if ((data.pix = bunny_new_pixelarray(WIDTH, HEIGHT)) == NULL)
+    return (1);
+  if ((data.win = bunny_start(WIDTH, HEIGHT, false, "Wolf")) == NULL)
+    return (1);
   bunny_set_loop_main_function(loop);
   bunny_set_key_response(&key_listenner);
   bunny_loop(data.win, FPS, (void*)(&data));
