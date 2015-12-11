@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:33:09 2015 Arnaud Alies
-** Last update Thu Dec 10 20:20:33 2015 Arnaud Alies
+** Last update Fri Dec 11 21:27:21 2015 Arnaud Alies
 */
 
 #ifndef WOLF_H_
@@ -23,8 +23,9 @@
 #define FOV (1.5)
 #define DIS (1.0)
 
-#define DARK_BROWN (0xFF5F4C0B)
-#define DARK_RED (0xFF61210B)
+#define DARK_BROWN (0x5B5B5B)
+#define DARK_RED (0x3D3F4D)
+#define MAX_TEX (25)
 
 #include <lapin.h>
 
@@ -61,13 +62,14 @@ typedef struct s_map
   int width;
   int height;
   int spawn[2];
+  t_bunny_pixelarray *textures[MAX_TEX];
+  int ntextures;
 } t_map;
 
 typedef struct s_data
 {
   t_bunny_window *win;
   t_bunny_pixelarray *pix;
-  t_bunny_pixelarray *texture;
   t_map	*map;
   t_pt pos;
   float ang;
@@ -90,7 +92,8 @@ void    wolf(t_data *data);
 
 t_map	*load_map(char *ini_name);
 void    show_map(t_map *map);
-
+t_color	get_pixel(t_bunny_pixelarray *pix,
+		  t_bunny_position *pos);
 
 void    tekpixel(t_bunny_pixelarray *pix,
 		 t_bunny_position *pos,

@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  9 13:22:38 2015 Arnaud Alies
-** Last update Thu Dec 10 20:20:54 2015 Arnaud Alies
+** Last update Fri Dec 11 11:21:47 2015 Arnaud Alies
 */
 
 #include "wolf.h"
@@ -52,7 +52,7 @@ t_hit   check_grid(t_pt start, t_pt ray, t_data *data)
   while (nline < (data->map)->width)
     {
       hit = check_line_x(start, ray, nline, data);
-      if (hit.k > 0 && hit.k < low.k && hit.hit == 1)
+      if (hit.k > 0 && hit.k < low.k && hit.hit > 0)
 	low = hit;
       nline += 1;
     }
@@ -60,7 +60,7 @@ t_hit   check_grid(t_pt start, t_pt ray, t_data *data)
   while (nline < (data->map)->height)
     {
       hit = check_line_y(start, ray, nline, data);
-      if (hit.k > 0 && hit.k < low.k && hit.hit == 1)
+      if (hit.k > 0 && hit.k < low.k && hit.hit > 0)
 	low = hit;
       nline += 1;
     }

@@ -5,67 +5,51 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  9 13:27:44 2015 Arnaud Alies
-** Last update Thu Dec 10 20:44:00 2015 Arnaud Alies
+** Last update Fri Dec 11 20:55:51 2015 Arnaud Alies
 */
 
-#include <math.h>
 #include "wolf.h"
+#include "disp.h"
 
-t_color		get_pixel(t_bunny_pixelarray *pix,
-			  t_bunny_position *pos)
+void			disp_loop(t_disp *dsp, t_data *data)
 {
-  t_color	color;
-  int   	w;
-  int   	h;
+  t_bunny_position	text;
+  t_color		c;
+  float			tmp;
 
-  w = (pix->clipable).clip_width;
-  h = (pix->clipable).clip_height;
-  if ((pos->x < w && pos->y < h) && (pos->x >= 0 && pos->y >= 0))
-    color.full = (((t_color*)pix->pixels)[w * pos->y + pos->x]).full;
-  else
-    color.full = BLACK;
-  return (color);
+  while ((dsp->pos).y < dsp->height + dsp->space)
+    {
+      tmp = ((dsp->hit)->type == A_Y ?
+	     ((dsp->hit)->pos).x :
+	     ((dsp->hit)->pos).y);
+      text.x = MAP(tmp,
+		   (int)tmp, (int)(tmp + 1),
+		   0, ((dsp->texture)->clipable).clip_width);
+      text.y = MAP((float)(dsp->pos).y,
+		   dsp->space, (dsp->height + dsp->space),
+		   0, ((dsp->texture)->clipable).clip_height);
+      c = get_pixel((dsp->texture), &text);
+      tekpixel(data->pix, &(dsp->pos), &c);
+      (dsp->pos).y += 1;
+    }
 }
 
-void                    disp_wall(t_data *data,
-				  int col,
-				  t_hit *hit)
+void		disp_wall(t_data *data,
+			  int col,
+			  t_hit *hit)
 {
-  t_bunny_position      pos;
-  t_bunny_position	text;
-  t_color               c;
-  int                   y;
-  int                   height;
-  int                   space;
-  unsigned int		darkness;
+  t_disp	dsp;
 
-  pos.x = col;
-  c.full = BLUE;
-  height = ((float)HEIGHT / hit->k);
-  space = (HEIGHT - height) / 2.0;
-  y = space;
-  while (y < height + space)
-    {
-      pos.y = y;
-      if (hit->type == A_Y)
-	{
-	  text.x = MAP((hit->pos).x,
-		       floor((hit->pos).x), ceil((hit->pos).x),
-		       0, ((data->texture)->clipable).clip_width);
-	}
-      else
-	{
-	  text.x = MAP((hit->pos).y,
-		       (int)(hit->pos).y, ((int)(hit->pos).y + 1),
-		       0, ((data->texture)->clipable).clip_width);
-	}
-      text.y = MAP((float)y,
-		   space, (height + space),
-		   0, ((data->texture)->clipable).clip_height);
-      c = get_pixel(data->texture, &text);
-      tekpixel(data->pix, &pos, &c);
-      y += 1;
-    }
+  dsp.hit = hit;
+  dsp.height = ((float)HEIGHT / hit->k);
+  dsp.space = (HEIGHT - dsp.height) / 2.0;
+  (dsp.pos).x = col;
+  (dsp.pos).y = dsp.space;
+  if ((data->map)->ntextures > hit->hit - 1)
+    (dsp.texture) = ((data->map)->textures)[hit->hit];
+  else
+    (dsp.texture) = ((data->map)->textures)[0];
+  disp_loop(&dsp, data);
 }
 
 void    wolf(t_data *data)

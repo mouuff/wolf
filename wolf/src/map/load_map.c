@@ -5,12 +5,13 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Fri Dec  4 10:39:51 2015 Arnaud Alies
-** Last update Wed Dec  9 22:30:53 2015 Arnaud Alies
+** Last update Fri Dec 11 16:14:21 2015 Arnaud Alies
 */
 
 #include <stdlib.h>
 #include <lapin.h>
 #include "wolf.h"
+#include "bmp.h"
 #include "my.h"
 
 int     	set_map(t_bunny_ini *ini, t_map *map)
@@ -54,6 +55,25 @@ int		ini_to_map(t_bunny_ini *ini, t_map *map)
   return (0);
 }
 
+int		ini_textures(t_bunny_ini *ini, t_map *map)
+{
+  const char	*buf;
+
+  if (((map->textures)[0] = bunny_new_pixelarray(100, 100)) == NULL)
+    return (1);
+  map->ntextures = 0;
+  while ((buf = bunny_ini_get_field(ini, SCOPE, "textures",
+				    map->ntextures)) != NULL)
+    {
+      if (((map->textures)[map->ntextures + 1] = load_bitmap(buf)) == NULL)
+	return (1);
+      map->ntextures += 1;
+      if (map->ntextures > MAX_TEX)
+	return (1);
+    }
+  return (0);
+}
+
 t_map		*load_map(char *ini_name)
 {
   t_map		*map;
@@ -72,6 +92,11 @@ t_map		*load_map(char *ini_name)
   if (ini_to_map(ini, map))
     {
       my_putstr("Malformated file. (height/width too small? / wrong scope?\n");
+      return (NULL);
+    }
+  if (ini_textures(ini, map))
+    {
+      my_putstr("Error while loading textures\n");
       return (NULL);
     }
   return (map);

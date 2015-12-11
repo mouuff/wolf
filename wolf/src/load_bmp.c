@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Thu Dec 10 17:19:58 2015 Arnaud Alies
-** Last update Thu Dec 10 17:26:11 2015 Arnaud Alies
+** Last update Fri Dec 11 15:54:07 2015 Arnaud Alies
 */
 
 #include <sys/types.h>
@@ -19,7 +19,7 @@
 
 t_bunny_pixelarray      *load_pix(int fd)
 {
-  char                  buffer[2048];
+  char                  buffer[4096];
   t_head                head;
   t_info                info;
   int                   r;
@@ -30,7 +30,9 @@ t_bunny_pixelarray      *load_pix(int fd)
   r = read(fd, &info, sizeof(info));
   if (r != sizeof(info))
     return (NULL);
-  read(fd, buffer, (sizeof(head) + sizeof(info)) - head.offset);
+  r = head.offset - (sizeof(head) + sizeof(info));
+  if (r > 0)
+    read(fd, buffer, r);
   return (bunny_new_pixelarray(info.width, info.height));
 }
 
@@ -39,10 +41,10 @@ void    c_rev(t_color *color)
   t_color buffer;
 
   buffer = *color;
-  (color->argb)[0] = buffer.argb[2];
-  (color->argb)[1] = buffer.argb[1];
-  (color->argb)[2] = buffer.argb[0];
-  (color->argb)[3] = 255;
+  (color->argb)[0] = buffer.argb[3];
+  (color->argb)[1] = buffer.argb[2];
+  (color->argb)[2] = buffer.argb[1];
+  (color->argb)[3] = buffer.argb[0];
 }
 
 int     read_init(t_bunny_pixelarray **pix,

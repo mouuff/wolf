@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:18:06 2015 Arnaud Alies
-** Last update Thu Dec 10 20:47:08 2015 Arnaud Alies
+** Last update Fri Dec 11 21:28:27 2015 Arnaud Alies
 */
 
 #include <math.h>
@@ -21,7 +21,6 @@ int	init_data(t_data *data, char *file)
     return (1);
   (data->pos).x = ((data->map)->spawn)[0];
   (data->pos).y = ((data->map)->spawn)[1];
-  show_map(data->map);
   return (0);
 }
 
@@ -71,7 +70,6 @@ static t_bunny_response	loop(void *data_pt)
   move(data);
   wolf(data);
   bunny_blit(&((data->win)->buffer), &((data->pix)->clipable), &zero);
-  /*bunny_blit(&((data->win)->buffer), &((data->texture)->clipable), &zero);*/
   bunny_display(data->win);
   return (GO_ON);
 }
@@ -96,9 +94,6 @@ int		main(int ac, char **av)
   if (ac <= 1)
     return (1);
   if (init_data(&data, av[1]))
-    return (1);
-  
-  if ((data.texture = load_bitmap("insanedoge.bmp")) == NULL)
     return (1);
   data.keys = NULL;
   if ((data.pix = bunny_new_pixelarray(WIDTH, HEIGHT)) == NULL)
