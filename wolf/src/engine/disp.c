@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  9 13:27:44 2015 Arnaud Alies
-** Last update Fri Dec 11 20:55:51 2015 Arnaud Alies
+** Last update Sat Dec 12 14:59:53 2015 Arnaud Alies
 */
 
 #include "wolf.h"
@@ -17,7 +17,8 @@ void			disp_loop(t_disp *dsp, t_data *data)
   t_color		c;
   float			tmp;
 
-  while ((dsp->pos).y < dsp->height + dsp->space)
+  while ((dsp->pos).y < dsp->height + dsp->space &&
+	 (dsp->pos).y < HEIGHT)
     {
       tmp = ((dsp->hit)->type == A_Y ?
 	     ((dsp->hit)->pos).x :
@@ -40,15 +41,17 @@ void		disp_wall(t_data *data,
 {
   t_disp	dsp;
 
+  if (hit->type == A_U)
+    return ;
   dsp.hit = hit;
   dsp.height = ((float)HEIGHT / hit->k);
   dsp.space = (HEIGHT - dsp.height) / 2.0;
   (dsp.pos).x = col;
-  (dsp.pos).y = dsp.space;
-  if ((data->map)->ntextures > hit->hit - 1)
-    (dsp.texture) = ((data->map)->textures)[hit->hit];
+  (dsp.pos).y = (dsp.space < 0 ? 0 : dsp.space);
+  if ((data->map).ntextures > hit->hit - 1)
+    (dsp.texture) = ((data->map).textures)[hit->hit];
   else
-    (dsp.texture) = ((data->map)->textures)[0];
+    (dsp.texture) = ((data->map).textures)[0];
   disp_loop(&dsp, data);
 }
 

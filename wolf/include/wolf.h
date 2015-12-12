@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:33:09 2015 Arnaud Alies
-** Last update Fri Dec 11 21:27:21 2015 Arnaud Alies
+** Last update Sat Dec 12 15:34:23 2015 Arnaud Alies
 */
 
 #ifndef WOLF_H_
@@ -38,9 +38,18 @@ typedef enum e_error
 
 typedef enum e_axes
   {
+    A_U,
     A_X,
     A_Y,
   } t_axes;
+
+typedef enum e_spawn
+  {
+    S_X		= 0,
+    S_Y		= 1,
+    S_ANG	= 2,
+    S_SIZE	= 3,
+  } t_spawn;
 
 typedef	struct s_pt
 {
@@ -61,7 +70,7 @@ typedef struct s_map
   int *matrix;
   int width;
   int height;
-  int spawn[2];
+  int spawn[S_SIZE];
   t_bunny_pixelarray *textures[MAX_TEX];
   int ntextures;
 } t_map;
@@ -70,7 +79,7 @@ typedef struct s_data
 {
   t_bunny_window *win;
   t_bunny_pixelarray *pix;
-  t_map	*map;
+  t_map	map;
   t_pt pos;
   float ang;
   const bool *keys;
@@ -90,7 +99,7 @@ void    pixfill(t_bunny_pixelarray *pix,
 void	disp_wall(t_data *data, int col, t_hit *hit);
 void    wolf(t_data *data);
 
-t_map	*load_map(char *ini_name);
+int	load_map(char *ini_name, t_map *map);
 void    show_map(t_map *map);
 t_color	get_pixel(t_bunny_pixelarray *pix,
 		  t_bunny_position *pos);

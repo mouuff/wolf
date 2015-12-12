@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:18:06 2015 Arnaud Alies
-** Last update Fri Dec 11 21:28:27 2015 Arnaud Alies
+** Last update Sat Dec 12 19:48:13 2015 Arnaud Alies
 */
 
 #include <math.h>
@@ -15,12 +15,11 @@
 
 int	init_data(t_data *data, char *file)
 {
-  data->ang = 3.1415/2;
-  data->map = load_map(file);
-  if (data->map == NULL)
+  if (load_map(file, &(data->map)))
     return (1);
-  (data->pos).x = ((data->map)->spawn)[0];
-  (data->pos).y = ((data->map)->spawn)[1];
+  (data->pos).x = ((data->map).spawn)[S_X] + 0.5;
+  (data->pos).y = ((data->map).spawn)[S_Y] + 0.4;
+  data->ang = ((data->map).spawn)[S_ANG] / 180.0 * M_PI;
   return (0);
 }
 
@@ -28,20 +27,14 @@ void	walk(t_data *data, int speed)
 {
   t_pt	new;
 
-  new.x = (data->pos).x + cos(data->ang) / 5 * speed;
+  new.x = (data->pos).x + cos(data->ang) / 10 * speed;
   new.y = (data->pos).y;
-  if (!check_wall(data->map, new.x, new.y))
-    {
-      new.x = (data->pos).x + cos(data->ang) / 10 * speed;
-      (data->pos) = new;
-    }
+  if (check_wall(&(data->map), new.x, new.y) <= 1)
+    (data->pos) = new;
   new.x = (data->pos).x;
-  new.y = (data->pos).y + sin(data->ang) / 5 * speed;
-  if (!check_wall(data->map, new.x, new.y))
-    {
-      new.y = (data->pos).y + sin(data->ang) / 10 * speed;
-      (data->pos) = new;
-    }
+  new.y = (data->pos).y + sin(data->ang) / 10 * speed;
+  if (check_wall(&(data->map), new.x, new.y) <= 1)
+    (data->pos) = new;
 }
 
 void	move(t_data *data)
@@ -49,9 +42,9 @@ void	move(t_data *data)
   if (data->keys != NULL)
     {
       if (data->keys[BKS_D])
-	data->ang -= 0.04;
+	data->ang -= 0.05;
       if (data->keys[BKS_Q])
-	data->ang += 0.04;
+	data->ang += 0.05;
       if (data->keys[BKS_Z])
 	walk(data, 1);
       if (data->keys[BKS_S])
