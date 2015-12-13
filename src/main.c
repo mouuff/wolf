@@ -5,52 +5,13 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:18:06 2015 Arnaud Alies
-** Last update Sat Dec 12 19:48:13 2015 Arnaud Alies
+** Last update Sun Dec 13 22:02:28 2015 Arnaud Alies
 */
 
 #include <math.h>
 #include <lapin.h>
 #include "bmp.h"
 #include "wolf.h"
-
-int	init_data(t_data *data, char *file)
-{
-  if (load_map(file, &(data->map)))
-    return (1);
-  (data->pos).x = ((data->map).spawn)[S_X] + 0.5;
-  (data->pos).y = ((data->map).spawn)[S_Y] + 0.4;
-  data->ang = ((data->map).spawn)[S_ANG] / 180.0 * M_PI;
-  return (0);
-}
-
-void	walk(t_data *data, int speed)
-{
-  t_pt	new;
-
-  new.x = (data->pos).x + cos(data->ang) / 10 * speed;
-  new.y = (data->pos).y;
-  if (check_wall(&(data->map), new.x, new.y) <= 1)
-    (data->pos) = new;
-  new.x = (data->pos).x;
-  new.y = (data->pos).y + sin(data->ang) / 10 * speed;
-  if (check_wall(&(data->map), new.x, new.y) <= 1)
-    (data->pos) = new;
-}
-
-void	move(t_data *data)
-{
-  if (data->keys != NULL)
-    {
-      if (data->keys[BKS_D])
-	data->ang -= 0.05;
-      if (data->keys[BKS_Q])
-	data->ang += 0.05;
-      if (data->keys[BKS_Z])
-	walk(data, 1);
-      if (data->keys[BKS_S])
-	walk(data, -1);
-    }
-}
 
 static t_bunny_response	loop(void *data_pt)
 {
@@ -60,7 +21,8 @@ static t_bunny_response	loop(void *data_pt)
   zero.x = 0;
   zero.y = 0;
   data = (t_data*)data_pt;
-  move(data);
+  if (move(data))
+    return (EXIT_ON_ERROR);
   wolf(data);
   bunny_blit(&((data->win)->buffer), &((data->pix)->clipable), &zero);
   bunny_display(data->win);
@@ -77,6 +39,11 @@ t_bunny_response key_listenner(t_bunny_event_state state,
   data->keys = bunny_get_keyboard();
   if (state == GO_DOWN && keysym == BKS_ESCAPE)
     return (EXIT_ON_SUCCESS);
+  if (state == GO_DOWN && keysym == BKS_G)
+    {
+      if (reload_data(data, "maps/map3.ini"))
+	return (EXIT_ON_SUCCESS);
+    }
   return (GO_ON);
 }
 
@@ -86,9 +53,11 @@ int		main(int ac, char **av)
 
   if (ac <= 1)
     return (1);
+  data.keys = NULL;
+  (data.map).matrix = NULL;
+  (data.map).next_map = NULL;
   if (init_data(&data, av[1]))
     return (1);
-  data.keys = NULL;
   if ((data.pix = bunny_new_pixelarray(WIDTH, HEIGHT)) == NULL)
     return (1);
   if ((data.win = bunny_start(WIDTH, HEIGHT, false, "Wolf")) == NULL)

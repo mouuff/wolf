@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:33:09 2015 Arnaud Alies
-** Last update Sat Dec 12 15:34:23 2015 Arnaud Alies
+** Last update Sun Dec 13 21:56:09 2015 Arnaud Alies
 */
 
 #ifndef WOLF_H_
@@ -23,8 +23,8 @@
 #define FOV (1.5)
 #define DIS (1.0)
 
-#define DARK_BROWN (0x5B5B5B)
-#define DARK_RED (0x3D3F4D)
+#define GROUND_COLOR (0x5B5B5B)
+#define AIR_COLOR (0x3D3F4D)
 #define MAX_TEX (25)
 
 #include <lapin.h>
@@ -71,6 +71,8 @@ typedef struct s_map
   int width;
   int height;
   int spawn[S_SIZE];
+  char *next_map;
+  int exit[2];
   t_bunny_pixelarray *textures[MAX_TEX];
   int ntextures;
 } t_map;
@@ -100,9 +102,21 @@ void	disp_wall(t_data *data, int col, t_hit *hit);
 void    wolf(t_data *data);
 
 int	load_map(char *ini_name, t_map *map);
-void    show_map(t_map *map);
+int	set_textures(t_bunny_ini *ini, t_map *map);
+int	set_map(t_bunny_ini *ini, t_map *map);
+void	set_exit(t_bunny_ini *ini, t_map *map);
+void	set_spawn(t_bunny_ini *ini, t_map *map);
+
+void    free_data(t_data *data);
+int     reload_data(t_data *data, char *file);
+int     init_data(t_data *data, char *file);
+
 t_color	get_pixel(t_bunny_pixelarray *pix,
 		  t_bunny_position *pos);
+
+int	hit_exit(t_data *data);
+int     walk(t_data *data, int speed);
+int	move(t_data *data);
 
 void    tekpixel(t_bunny_pixelarray *pix,
 		 t_bunny_position *pos,

@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  9 13:27:44 2015 Arnaud Alies
-** Last update Sat Dec 12 14:59:53 2015 Arnaud Alies
+** Last update Sun Dec 13 16:15:55 2015 Arnaud Alies
 */
 
 #include "wolf.h"
@@ -61,7 +61,7 @@ void    wolf(t_data *data)
   t_pt	ray;
   int	i;
 
-  pixfill(data->pix, DARK_RED, DARK_BROWN);
+  pixfill(data->pix, GROUND_COLOR, AIR_COLOR);
   i = 0;
   while (i < WIDTH)
     {
