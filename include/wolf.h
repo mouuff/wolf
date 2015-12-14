@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:33:09 2015 Arnaud Alies
-** Last update Mon Dec 14 20:47:23 2015 Arnaud Alies
+** Last update Mon Dec 14 21:57:12 2015 Arnaud Alies
 */
 
 #ifndef WOLF_H_
@@ -84,6 +84,7 @@ typedef struct s_data
   t_map	map;
   t_pt pos;
   float ang;
+  int antialiasing;
   const bool *keys;
 } t_data;
 
@@ -95,6 +96,7 @@ t_hit   check_line_x(t_pt start, t_pt ray, int nline, t_data *data);
 t_hit   check_line_y(t_pt start, t_pt ray, int nline, t_data *data);
 t_hit   check_grid(t_pt start, t_pt ray, t_data *data);
 
+void    antialiasing(t_bunny_pixelarray *pix);
 void    pixfill(t_bunny_pixelarray *pix,
 		unsigned int ground,
 		unsigned int air);

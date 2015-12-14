@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:18:06 2015 Arnaud Alies
-** Last update Mon Dec 14 11:39:59 2015 Arnaud Alies
+** Last update Mon Dec 14 21:58:09 2015 Arnaud Alies
 */
 
 #include <math.h>
@@ -24,6 +24,8 @@ static t_bunny_response	loop(void *data_pt)
   if (move(data))
     return (EXIT_ON_ERROR);
   wolf(data);
+  if (data->antialiasing)
+    antialiasing(data->pix);
   bunny_blit(&((data->win)->buffer), &((data->pix)->clipable), &zero);
   bunny_display(data->win);
   return (GO_ON);
@@ -44,6 +46,10 @@ t_bunny_response key_listenner(t_bunny_event_state state,
       if (reload_data(data, "maps/map3.ini"))
 	return (EXIT_ON_SUCCESS);
     }
+  if (state == GO_DOWN && keysym == BKS_A)
+    {
+      data->antialiasing = (data->antialiasing ? 0 : 1);
+    }
   return (GO_ON);
 }
 
@@ -53,6 +59,7 @@ int		main(int ac, char **av)
 
   if (ac <= 1)
     return (1);
+  data.antialiasing = 0;
   data.keys = NULL;
   (data.map).matrix = NULL;
   (data.map).next_map = NULL;

@@ -5,7 +5,7 @@
 ## Login   <alies_a@epitech.net>
 ## 
 ## Started on  Wed Dec  2 20:32:05 2015 Arnaud Alies
-## Last update Sun Dec 13 12:39:18 2015 Arnaud Alies
+## Last update Mon Dec 14 21:57:27 2015 Arnaud Alies
 ##
 
 NAME    =       wolf3d
@@ -36,6 +36,7 @@ SRCS	=	$(SRC)main.c \
 		$(SRC)load_bmp.c \
 		$(SRC)move.c \
 		$(SRC)load_data.c \
+		$(SRC)antialiasing.c \
 		$(TCORE)tekpixel.c \
 		$(TCORE)vecnorm.c \
 		$(TCORE)go.c \
