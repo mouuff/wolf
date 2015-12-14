@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:33:09 2015 Arnaud Alies
-** Last update Mon Dec 14 11:18:08 2015 Arnaud Alies
+** Last update Mon Dec 14 20:47:23 2015 Arnaud Alies
 */
 
 #ifndef WOLF_H_
@@ -33,14 +33,14 @@ typedef enum e_error
   {
     MAP_ERR,
     INFO_ERR,
-    LOAD_ERR,
+    LOAD_ERR
   } t_error;
 
 typedef enum e_axes
   {
     A_U,
     A_X,
-    A_Y,
+    A_Y
   } t_axes;
 
 typedef enum e_spawn
@@ -48,7 +48,7 @@ typedef enum e_spawn
     S_X		= 0,
     S_Y		= 1,
     S_ANG	= 2,
-    S_SIZE	= 3,
+    S_SIZE	= 3
   } t_spawn;
 
 typedef	struct s_pt
