@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:33:09 2015 Arnaud Alies
-** Last update Sun Dec 13 21:56:09 2015 Arnaud Alies
+** Last update Mon Dec 14 11:18:08 2015 Arnaud Alies
 */
 
 #ifndef WOLF_H_
