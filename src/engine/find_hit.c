@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  9 13:22:38 2015 Arnaud Alies
-** Last update Sat Dec 12 14:28:29 2015 Arnaud Alies
+** Last update Tue Dec 15 22:08:27 2015 Arnaud Alies
 */
 
 #include "wolf.h"
@@ -50,7 +50,6 @@ t_hit   check_grid(t_pt start, t_pt ray, t_data *data)
   low.type = A_U;
   low.hit = 1;
   low.k = (data->map).width * (data->map).height;
-
   nline = 0;
   while (nline < (data->map).width)
     {

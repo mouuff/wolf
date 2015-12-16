@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:18:06 2015 Arnaud Alies
-** Last update Mon Dec 14 21:58:09 2015 Arnaud Alies
+** Last update Wed Dec 16 17:54:34 2015 Arnaud Alies
 */
 
 #include <math.h>
@@ -41,11 +41,6 @@ t_bunny_response key_listenner(t_bunny_event_state state,
   data->keys = bunny_get_keyboard();
   if (state == GO_DOWN && keysym == BKS_ESCAPE)
     return (EXIT_ON_SUCCESS);
-  if (state == GO_DOWN && keysym == BKS_G)
-    {
-      if (reload_data(data, "maps/map3.ini"))
-	return (EXIT_ON_SUCCESS);
-    }
   if (state == GO_DOWN && keysym == BKS_A)
     {
       data->antialiasing = (data->antialiasing ? 0 : 1);
@@ -57,13 +52,13 @@ int		main(int ac, char **av)
 {
   t_data	data;
 
-  if (ac <= 1)
-    return (1);
   data.antialiasing = 0;
   data.keys = NULL;
   (data.map).matrix = NULL;
   (data.map).next_map = NULL;
-  if (init_data(&data, av[1]))
+  if (ac <= 1)
+    init_data(&data, "maps/camp1.ini");
+  else if (init_data(&data, av[1]))
     return (1);
   if ((data.pix = bunny_new_pixelarray(WIDTH, HEIGHT)) == NULL)
     return (1);
