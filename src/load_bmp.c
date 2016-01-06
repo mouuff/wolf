@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Thu Dec 10 17:19:58 2015 Arnaud Alies
-** Last update Fri Dec 11 15:54:07 2015 Arnaud Alies
+** Last update Sun Jan  3 22:33:57 2016 Arnaud Alies
 */
 
 #include <sys/types.h>
@@ -81,11 +81,8 @@ t_bunny_pixelarray      *load_bitmap(const char *file)
 	  tekpixel(pix, &pos, &buffer);
 	}
       pos.x += 1;
-      if (pos.x >= (pix->clipable).clip_width)
-	{
-	  pos.x = 0;
-	  pos.y -= 1;
-	}
+      pos.y = (pos.x >= (pix->clipable).clip_width ? pos.y - 1 : pos.y);
+      pos.x = (pos.x >= (pix->clipable).clip_width ? 0 : pos.x);
     }
   close(fd);
   return (pix);

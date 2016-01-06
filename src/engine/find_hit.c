@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  9 13:22:38 2015 Arnaud Alies
-** Last update Tue Dec 15 22:08:27 2015 Arnaud Alies
+** Last update Sun Jan  3 22:35:36 2016 Arnaud Alies
 */
 
 #include "wolf.h"
@@ -25,7 +25,9 @@ t_hit   check_line_x(t_pt start, t_pt ray, int nline, t_data *data)
   (res.pos).x = nline;
   res.k = GETK((float)nline, start.x, ray.x);
   (res.pos).y = GETX(start.y, res.k, ray.y);
-  res.hit = check_wall(&(data->map), (res.pos).x - (start.x < nline ? 0 : 1), (res.pos).y);
+  res.hit = check_wall(&(data->map),
+		       (res.pos).x - (start.x < nline ? 0 : 1),
+		       (res.pos).y);
   return (res);
 }
 
@@ -37,7 +39,9 @@ t_hit   check_line_y(t_pt start, t_pt ray, int nline, t_data *data)
   (res.pos).y = nline;
   res.k = GETK((float)nline, start.y, ray.y);
   (res.pos).x = GETX(start.x, res.k, ray.x);
-  res.hit = check_wall(&(data->map), (res.pos).x, (res.pos).y - (start.y < nline ? 0 : 1));
+  res.hit = check_wall(&(data->map),
+		       (res.pos).x,
+		       (res.pos).y - (start.y < nline ? 0 : 1));
   return (res);
 }
 

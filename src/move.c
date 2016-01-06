@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Sun Dec 13 12:25:13 2015 Arnaud Alies
-** Last update Sun Dec 13 21:55:40 2015 Arnaud Alies
+** Last update Sun Jan  3 22:35:00 2016 Arnaud Alies
 */
 
 #include <stdlib.h>
@@ -39,7 +39,6 @@ int     walk(t_data *data, int speed)
     (data->pos) = new;
   return (0);
 }
-
 
 int	move(t_data *data)
 {

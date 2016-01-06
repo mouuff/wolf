@@ -5,7 +5,7 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:18:06 2015 Arnaud Alies
-** Last update Wed Dec 16 17:54:34 2015 Arnaud Alies
+** Last update Sun Jan  3 19:34:38 2016 Arnaud Alies
 */
 
 #include <math.h>
@@ -57,7 +57,10 @@ int		main(int ac, char **av)
   (data.map).matrix = NULL;
   (data.map).next_map = NULL;
   if (ac <= 1)
-    init_data(&data, "maps/camp1.ini");
+    {
+      if (init_data(&data, "maps/camp1.ini"))
+	return (1);
+    }
   else if (init_data(&data, av[1]))
     return (1);
   if ((data.pix = bunny_new_pixelarray(WIDTH, HEIGHT)) == NULL)
