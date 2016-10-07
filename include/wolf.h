@@ -5,11 +5,13 @@
 ** Login   <alies_a@epitech.net>
 ** 
 ** Started on  Wed Dec  2 20:33:09 2015 Arnaud Alies
-** Last update Mon Dec 14 21:57:12 2015 Arnaud Alies
+** Last update Fri Oct  7 14:15:59 2016 alies_a
 */
 
 #ifndef WOLF_H_
 #define WOLF_H_
+
+#include <lapin.h>
 
 #define WIDTH (700)
 #define HEIGHT (500)
@@ -27,7 +29,9 @@
 #define AIR_COLOR (0x3D3F4D)
 #define MAX_TEX (25)
 
-#include <lapin.h>
+#ifndef M_PI
+#define M_PI 3.1415
+#endif
 
 typedef enum e_error
   {
